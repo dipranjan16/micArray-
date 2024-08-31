@@ -1,0 +1,32 @@
+% Constants
+mic_distance = 0.1;          % Distance between microphones in meters
+sampling_rate = 44100;       % Sampling rate in Hz
+speed_of_sound = 343;        % Speed of sound in m/s
+
+% Simulate or load the gunshot signal received by three microphones
+% Synthetic signal example with delays
+mic1_signal = randn(1, 1000); % Synthetic noise + gunshot signal
+mic2_signal = circshift(mic1_signal, [0, 5]);  % Delay of 5 samples
+mic3_signal = circshift(mic1_signal, [0, 10]); % Delay of 10 samples
+
+% Cross-correlation between mic1 and mic2, mic1 and mic3
+[corr12, lags12] = xcorr(mic1_signal, mic2_signal);
+[corr13, lags13] = xcorr(mic1_signal, mic3_signal);
+
+% Find the lag (delay) corresponding to the maximum cross-correlation
+[~, idx12] = max(corr12);
+[~, idx13] = max(corr13);
+delay12 = lags12(idx12);
+delay13 = lags13(idx13);
+
+% Calculate time delays in seconds
+time_delay12 = delay12 / sampling_rate;
+time_delay13 = delay13 / sampling_rate;
+
+% Use TDOA to estimate angle of arrival
+% Assuming microphones are aligned along the x-axis
+angle1 = asind((time_delay12 * speed_of_sound) / mic_distance);
+angle2 = asind((time_delay13 * speed_of_sound) / (2 * mic_distance));
+
+% Final estimated angle (average of both calculations)
+estimated_angle = (angle1 + angle2) / 2;
