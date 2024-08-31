@@ -1,0 +1,17 @@
+Assumptions:
+
+1. Microphone Data: Data from six omnidirectional microphones are available as digital signals from an ADC.
+2. Clock and Reset: A system clock and reset signal are provided.
+3. Threshold: A fixed threshold value is used to detect gunshot events.
+4. Simplified Filtering and Detection: For simplicity, the code uses a basic threshold-based detection method.
+
+
+
+
+
+
+
+
+
+Creating a Verilog implementation for an FPGA-based gunshot detection and localization system involves several components, such as handling ADC input, filtering, and time difference of arrival (TDOA) calculations for sound localization. 
+
